@@ -14,6 +14,7 @@ pub struct Gpu {
     attempt: Buffer<u8>,
     result: Buffer<u8>,
     root: Buffer<u8>,
+    threshold: Buffer<u8>,
 }
 
 impl Gpu {
@@ -66,17 +67,20 @@ impl Gpu {
             .flags(MemFlags::new().read_only().host_write_only())
             .len(32)
             .build()?;
-
-        let difficulty = 0u64;
+        let threshold = Buffer::<u8>::builder()
+            .queue(pro_que.queue().clone())
+            .flags(MemFlags::new().read_only().host_write_only())
+            .len(32)
+            .build()?;
 
         let kernel = {
-            let mut kernel_builder = pro_que.kernel_builder("nano_work");
+            let mut kernel_builder = pro_que.kernel_builder("work");
             kernel_builder
                 .global_work_size(threads)
                 .arg(&attempt)
-                .arg(&result)
                 .arg(&root)
-                .arg_named("difficulty", &difficulty);
+                .arg(&threshold)
+                .arg(&result);
             if let Some(local_work_size) = local_work_size {
                 kernel_builder.local_work_size(local_work_size);
             }
@@ -88,6 +92,7 @@ impl Gpu {
             attempt,
             result,
             root,
+            threshold
         };
         gpu.reset_bufs()?;
         Ok(gpu)
@@ -98,10 +103,10 @@ impl Gpu {
         Ok(())
     }
 
-    pub fn set_task(&mut self, root: &[u8], difficulty: u64) -> Result<()> {
+    pub fn set_task(&mut self, root: &[u8], threshold: &[u8]) -> Result<()> {
         self.reset_bufs()?;
         self.root.write(root).enq()?;
-        self.kernel.set_arg("difficulty", difficulty)?;
+        self.threshold.write(threshold).enq()?;
         Ok(())
     }
 

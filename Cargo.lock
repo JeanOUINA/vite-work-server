@@ -618,26 +618,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "nano-work-server"
-version = "0.3.1"
-dependencies = [
- "blake2",
- "byteorder",
- "chrono",
- "clap",
- "digest",
- "futures 0.3.25",
- "hex",
- "hyper",
- "ocl",
- "parking_lot",
- "rand",
- "rand_xorshift",
- "serde_json",
- "tokio",
-]
-
-[[package]]
 name = "nodrop"
 version = "0.1.14"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1103,6 +1083,26 @@ name = "version_check"
 version = "0.9.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "49874b5167b65d7193b8aba1567f5c7d93d001cafc34600cee003eda787e483f"
+
+[[package]]
+name = "vite-work-server"
+version = "0.3.1"
+dependencies = [
+ "blake2",
+ "byteorder",
+ "chrono",
+ "clap",
+ "digest",
+ "futures 0.3.25",
+ "hex",
+ "hyper",
+ "ocl",
+ "parking_lot",
+ "rand",
+ "rand_xorshift",
+ "serde_json",
+ "tokio",
+]
 
 [[package]]
 name = "want"
