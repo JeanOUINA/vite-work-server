@@ -3,6 +3,24 @@ name: Build
 on: [pull_request, push]
 
 jobs:
+  debug-macos-intel:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@aabbfeb2ce60b5bd82389903509092c4648a9713
+      - uses: actions-rs/toolchain@b2417cde72dcf67f306c0ae8e0828a81bf0b189f
+        with:
+          toolchain: stable
+      - name: Build
+        run: cargo build
+  release-macos-intel:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@aabbfeb2ce60b5bd82389903509092c4648a9713
+      - uses: actions-rs/toolchain@b2417cde72dcf67f306c0ae8e0828a81bf0b189f
+        with:
+          toolchain: stable
+      - name: Build release
+        run: cargo build --release
   debug-linux:
     runs-on: ubuntu-20.04
     steps:
