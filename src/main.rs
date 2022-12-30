@@ -351,7 +351,7 @@ impl RpcService {
                             StatusCode::OK,
                             json!({
                                 "work": hex::encode(&work),
-                                "threshold": format!("{}", hex::encode(result_threshold))
+                                "threshold": hex::encode(result_threshold)
                             }),
                         ))
                     }
