@@ -1,19 +1,16 @@
-# Nano work server
+> This project was forked from [nano-work-server](https://github.com/nanocurrency/nano-work-server)
 
-![Build](https://github.com/nanocurrency/nano-work-server/workflows/Build/badge.svg)
+# Vite Work Server
 
-This project is a dedicated work server for [the Nano cryptocurrency](https://nano.org/). See the [documentation](https://docs.nano.org/integration-guides/work-generation/) for details on work generation and the current network difficulty.
+![Build](https://github.com/jeanouina/vite-work-server/workflows/Build/badge.svg)
 
-**nano-work-server** supports the `work_generate`, `work_cancel`, and `work_validate` commands from the Nano RPC.
-For details on these commands, see [the Nano RPC documentation](https://docs.nano.org/commands/rpc-protocol/).
+This project is a dedicated work server for [the Vite cryptocurrency](https://vite.org/).
+
+**vite-work-server** supports the `work_generate`, `work_cancel`, and `work_validate` commands.
 
 To see available command line options, run `nano-work-server --help`.
 
 If using more than one work peer, give the flag `--shuffle`. This makes it so that the next request is picked randomly instead of sequentially, which leads to more efficient work generation with multiple peers, especially when they are not in the same network.
-
-## Current base difficulty
-
-`0xfffffff800000000` since [a75d984](https://github.com/nanocurrency/nano-work-server/commit/a75d98429a11fcb0c129a55380996a612299917b). See the [Nano work generation guide](https://docs.nano.org/integration-guides/work-generation/#difficulty-thresholds) for more information.
 
 ## Installation
 
@@ -62,8 +59,8 @@ sudo dnf install gcc
 ### Build
 
 ```bash
-git clone https://github.com/nanocurrency/nano-work-server.git
-cd nano-work-server
+git clone https://github.com/jeanouina/vite-work-server.git
+cd vite-work-server
 cargo build --release
 ```
 
@@ -75,27 +72,25 @@ cargo rustc --release -- -l OpenCL -L "/path/to/opencl.lib"
 
 ## Using
 
-`nano-work-server --help`
+`vite-work-server --help`
 
-_Note_ difficulty values may be outdated in these examples.
+_Note_ threshold values may be outdated in these examples.
 
 - `work_generate` example:
 
     ```json
     {
         "action": "work_generate",
-        "hash": "718CC2121C3E641059BC1C2CFC45666C99E8AE922F7A807B7D07B62C995D79E2",
-        "difficulty": "ffffffc000000000",
-        "multiplier": "1.0" // overrides difficulty
+        "hash": "718cc2121c3e641059bc1c2cfc45666c99e8ae922f7a807b7d07b62c995d79e2",
+        "threshold": "ffffffc000000000000000000000000000000000000000000000000000000000"
     }
     ```
     Response:
 
     ```json
     {
-        "work": "2bf29ef00786a6bc",
-        "difficulty": "ffffffd21c3933f4",
-        "multiplier": "1.3946469"        
+        "threshold": "ffffffdef664a41ce3f73ab1882577719b77854188d0d5939cd6a63d7fc950bb",
+        "work": "2bf29ef00786a6bc"
     }
     ```
 
@@ -105,20 +100,17 @@ _Note_ difficulty values may be outdated in these examples.
     ```json
     {
         "action": "work_validate",
-        "hash": "718CC2121C3E641059BC1C2CFC45666C99E8AE922F7A807B7D07B62C995D79E2",
-        "work": "2bf29ef00786a6bc",
-        "difficulty": "ffffffc000000000",
-        "multiplier": "1.0" // overrides difficulty
+        "hash": "718cc2121c3e641059bc1c2cfc45666c99e8ae922f7a807b7d07b62c995d79e2",
+        "threshold": "ffffffc000000000000000000000000000000000000000000000000000000000",
+        "work": "2bf29ef00786a6bc"
     }
     ```
     Response:
 
     ```json
     {
-        "valid_all": "1",
-        "valid_receive": "1",
-        "difficulty": "ffffffd21c3933f4",
-        "multiplier": "1.3946469"
+        "valid": true,
+        "threshold": "ffffffdef664a41ce3f73ab1882577719b77854188d0d5939cd6a63d7fc950bb"
     }
     ```
 
@@ -126,14 +118,13 @@ _Note_ difficulty values may be outdated in these examples.
     ```json
     {
         "action": "work_cancel",
-        "hash": "718CC2121C3E641059BC1C2CFC45666C99E8AE922F7A807B7D07B62C995D79E2"
+        "hash": "718cc2121c3e641059bc1c2cfc45666c99e8ae922f7a807b7d07b62c995d79e2"
     }
     ```
     Response:
 
     ```json
-    {
-    }
+    {}
     ```
 
 ## Benchmarking
@@ -143,6 +134,7 @@ Example request:
 ```json
 {
     "action": "benchmark",
+    "threshold": "ffffffc000000000000000000000000000000000000000000000000000000000",
     "count": "10"
 }
 ```
@@ -153,12 +145,11 @@ Example response:
 
 ```json
 {
-    "average": "481",
+    "average": "609",
     "count": "10",
-    "difficulty": "fffffff800000000",
-    "duration": "4813",
+    "duration": "6097",
     "hint": "Times in milliseconds",
-    "multiplier": "1"
+    "threshold": "ffffffc000000000000000000000000000000000000000000000000000000000"
 }
 ```
 

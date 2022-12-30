@@ -378,7 +378,7 @@ impl RpcService {
                 let _ = println!("Validate {}", hex::encode_upper(&root));
                 let (valid, result_threshold) = work_valid(root, work, threshold);
                 let result = json!({
-                    "valid": if valid { "1" } else { "0" },
+                    "valid": valid,
                     "threshold": hex::encode(result_threshold)
                 });
                 Ok((StatusCode::OK, result))
