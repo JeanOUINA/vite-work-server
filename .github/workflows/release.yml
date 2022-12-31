@@ -29,15 +29,15 @@ jobs:
           cargo build --release "--target=aarch64-apple-darwin"
       - name: Merge Release
         run: |
-          mkdir target/release
-          lipo -create -output target/release/vite-work-server target/aarch64-apple-darwin/release/vite-work-server target/x86_64-apple-darwin/release/vite-work-server
+          mkdir target/universal-release
+          lipo -create -output target/universal-release/vite-work-server target/aarch64-apple-darwin/release/vite-work-server target/x86_64-apple-darwin/release/vite-work-server
       - name: Generate sha256sum
-        run: pushd target/release/; openssl sha256 "vite-work-server" | awk '{print $2}' > vite-work-server.sha256; popd
+        run: pushd target/universal-release/; openssl sha256 "vite-work-server" | awk '{print $2}' > vite-work-server.sha256; popd
       - name: Upload artifact
         uses: svenstaro/upload-release-action@14569a2d348419d066e34e5dfa65071ecd30b64b
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: target/release/vite-work-server
+          file: target/universal-release/vite-work-server
           asset_name: vite-work-server-macos
           tag: ${{ github.ref }}
           overwrite: true
@@ -45,7 +45,7 @@ jobs:
         uses: svenstaro/upload-release-action@14569a2d348419d066e34e5dfa65071ecd30b64b
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: target/release/vite-work-server.sha256
+          file: target/universal-release/vite-work-server.sha256
           asset_name: vite-work-server-macos.sha256
           tag: ${{ github.ref }}
           overwrite: true
