@@ -16,7 +16,7 @@ jobs:
       - name: Build release
         run: cargo build --release
       - name: Generate sha256sum
-        run: pushd target/release/; openssl sha256 "vite-work-server" | awk '{print $2}'; > vite-work-server.sha256; popd
+        run: pushd target/release/; openssl sha256 "vite-work-server" | awk '{print $2}' > vite-work-server.sha256; popd
       - name: Upload artifact
         uses: svenstaro/upload-release-action@14569a2d348419d066e34e5dfa65071ecd30b64b
         with:
