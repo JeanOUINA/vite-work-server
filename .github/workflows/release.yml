@@ -13,8 +13,24 @@ jobs:
       - uses: actions-rs/toolchain@b2417cde72dcf67f306c0ae8e0828a81bf0b189f
         with:
           toolchain: stable
-      - name: Build release
-        run: cargo build --release
+      - name: Build x86_64 Release
+        run: |
+          CROSSBUILD_MACOS_SDK="macosx"
+          rustup target add x86_64-apple-darwin
+          SDKROOT=$(xcrun -sdk $CROSSBUILD_MACOS_SDK --show-sdk-path)
+          MACOSX_DEPLOYMENT_TARGET=$(xcrun -sdk $CROSSBUILD_MACOS_SDK --show-sdk-platform-version)
+          cargo build --release "--target=x86_64-apple-darwin"
+      - name: Build arm64 Release
+        run: |
+          CROSSBUILD_MACOS_SDK="macosx"
+          rustup target add aarch64-apple-darwin
+          SDKROOT=$(xcrun -sdk $CROSSBUILD_MACOS_SDK --show-sdk-path)
+          MACOSX_DEPLOYMENT_TARGET=$(xcrun -sdk $CROSSBUILD_MACOS_SDK --show-sdk-platform-version)
+          cargo build --release "--target=aarch64-apple-darwin"
+      - name: Merge Release
+        run: |
+          mkdir target/release
+          lipo -create -output target/release/vite-work-server target/aarch64-apple-darwin/release/vite-work-server target/x86_64-apple-darwin/release/vite-work-server
       - name: Generate sha256sum
         run: pushd target/release/; openssl sha256 "vite-work-server" | awk '{print $2}' > vite-work-server.sha256; popd
       - name: Upload artifact
