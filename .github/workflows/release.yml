@@ -6,7 +6,7 @@ on:
       - '*'
 
 jobs:
-  artifacts-macos-intel:
+  artifacts-macos:
     runs-on: macos-11
     steps:
       - uses: actions/checkout@aabbfeb2ce60b5bd82389903509092c4648a9713
