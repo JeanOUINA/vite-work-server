@@ -18,7 +18,7 @@ jobs:
       - name: Generate sha256sum
         run: pushd target/release/; sha256sum vite-work-server > vite-work-server.sha256; popd
       - name: Upload artifact
-        uses: svenstaro/upload-release-action@14569a2
+        uses: svenstaro/upload-release-action@14569a2d348419d066e34e5dfa65071ecd30b64b
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: target/release/vite-work-server
@@ -26,7 +26,7 @@ jobs:
           tag: ${{ github.ref }}
           overwrite: true
       - name: Upload sha256
-        uses: svenstaro/upload-release-action@14569a2
+        uses: svenstaro/upload-release-action@14569a2d348419d066e34e5dfa65071ecd30b64b
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: target/release/vite-work-server.sha256
@@ -50,7 +50,7 @@ jobs:
       - name: Generate sha256sum
         run: pushd target/release/; sha256sum vite-work-server > vite-work-server.sha256; popd
       - name: Upload artifact
-        uses: svenstaro/upload-release-action@14569a2
+        uses: svenstaro/upload-release-action@14569a2d348419d066e34e5dfa65071ecd30b64b
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: target/release/vite-work-server
@@ -58,7 +58,7 @@ jobs:
           tag: ${{ github.ref }}
           overwrite: true
       - name: Upload sha256
-        uses: svenstaro/upload-release-action@14569a2
+        uses: svenstaro/upload-release-action@14569a2d348419d066e34e5dfa65071ecd30b64b
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: target/release/vite-work-server.sha256
@@ -79,7 +79,7 @@ jobs:
       - name: Generate sha256sum
         run: pushd target/release/; sha256sum.exe vite-work-server.exe > vite-work-server.exe.sha256; popd
       - name: Upload artifact
-        uses: svenstaro/upload-release-action@14569a2
+        uses: svenstaro/upload-release-action@14569a2d348419d066e34e5dfa65071ecd30b64b
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: target/release/vite-work-server.exe
@@ -87,7 +87,7 @@ jobs:
           tag: ${{ github.ref }}
           overwrite: true 
       - name: Upload sha256
-        uses: svenstaro/upload-release-action@14569a2
+        uses: svenstaro/upload-release-action@14569a2d348419d066e34e5dfa65071ecd30b64b
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: target/release/vite-work-server.exe.sha256
